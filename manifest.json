@@ -6,5 +6,12 @@
     "background": {
         "scripts": ["src/background.js"],
         "persistent": false
+    },
+    "icons":{
+        "128":"rand.png"
+    },
+    "browser_action":{
+        "default_icon":"rand.png",
+        "default_popup":"testing.html"
     }
 }
