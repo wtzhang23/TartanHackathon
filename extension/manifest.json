@@ -1,5 +1,5 @@
 {
-    "name": "AAAAAAA: Explore your Horizons",
+    "name": "Voyager: Explore your Horizons",
     "version": "0.1",
     "description": "Broaden your virtual world!",
     "permissions": [
@@ -11,10 +11,10 @@
         "persistent": false
     },
     "icons":{
-        "128":"rand.png"
+        "128":"img/icon.png"
     },
     "browser_action":{
-        "default_icon":"rand.png",
+        "default_icon":"img/icon.png",
         "default_popup":"test.html"
     }
 }
