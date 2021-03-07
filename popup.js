@@ -1,3 +1,4 @@
+window.resizeBy(600,800)
 document.addEventListener('DOMContentLoaded', function() {
     var checkPageButton = document.getElementById('checkPage');
     checkPageButton.addEventListener('click', function() {
