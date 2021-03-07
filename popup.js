@@ -1,5 +1,5 @@
 const req = new XMLHttpRequest();
-const params = { "num": 10 };
+const params = { "num": 3 };
 const url = "https://tartanhackathon.uc.r.appspot.com/recommend?num=10";
 function getText() {
     return document.body.innerText
