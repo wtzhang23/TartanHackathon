@@ -1,0 +1,46 @@
+html, body{
+    margin:0;
+    padding: 0;
+}
+*{
+    box-sizing: border-box;
+}
+body{
+  background: rgb(255,191,192);
+background: linear-gradient(180deg, rgba(255,191,192,1) 0%, rgba(255,196,198,1) 24%, rgba(254,214,204,1) 66%, rgba(253,226,205,1) 100%);
+}
+
+html {
+    min-width: 200px; /* your desired width */
+    min-height: 200px;
+    position: relative;
+    vertical-align:middle;
+  }
+
+  .wrapper {
+    text-align: center;
+}
+  .button {
+    background-color: #87cae0; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin-bottom: 15px;
+
+  }
+  .button:hover {
+    background-color: #008CBA; /* Green */
+    color: white;
+  }
+
+
+
+
+
