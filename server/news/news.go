@@ -1,11 +1,13 @@
-package main
+package news
 
 import (
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
+	"tartanhackathon/recommend"
+	"tartanhackathon/utils"
 	"time"
-	"log"
 )
 
 const apiKey = "009de51effee49ada26b0ed9282b28bf"
@@ -18,7 +20,7 @@ type urlContentPair struct {
 	content string
 }
 
-func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float32, chan<- *url.URL) {
+func NewsRecommender(textQueryChn chan<- recommend.TextQuery) func(string, float32, float32, chan<- *url.URL) {
 	return func(label string, mean float32, dip float32, urlChn chan<- *url.URL) {
 		timeout := time.After(queryTimeout * time.Second)
 		contentChn := make(chan urlContentPair)
@@ -32,8 +34,8 @@ func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float3
 				return
 			case content := <-contentChn:
 				go func() {
-					resChn := make(chan []EntityResult)
-					query := TextQuery{content.content, resChn}
+					resChn := make(chan []recommend.EntityResult)
+					query := recommend.TextQuery{content.content, resChn}
 					select {
 					case <-timeout:
 						log.Println("Timed out on enqueuing task for sentiment analysis of a news article")
@@ -78,7 +80,7 @@ func query(label string, nRes int, timeout <-chan time.Time, contentChn chan<- u
 			u.RawQuery = vals.Encode()
 			resp, reqErr := http.Get(u.String())
 			if reqErr == nil {
-				json, jsonErr := IOToJson(resp.Body)
+				json, jsonErr := utils.IOToJson(resp.Body)
 				if jsonErr == nil {
 					log.Printf("%s\n", json)
 					status := json["status"].(string)
@@ -99,6 +101,8 @@ func query(label string, nRes int, timeout <-chan time.Time, contentChn chan<- u
 							}
 						}
 					}
+				} else {
+					log.Printf("Failed to parse response body as JSON")
 				}
 			} else {
 				log.Printf("Failed to get request from news API. Response: %s", reqErr)
