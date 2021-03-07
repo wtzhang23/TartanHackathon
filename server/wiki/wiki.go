@@ -25,24 +25,34 @@ func WikiRecommender() func(string, float32, float32, chan<- *url.URL) {
 		vals.Set("action", "query")
 		vals.Set("list", "search")
 		vals.Set("srsearch", label)
+		vals.Set("format", "json")
 		u.RawQuery = vals.Encode()
+		log.Printf("Requesting url %s\n", u.String())
 		resp, reqErr := http.Get(u.String())
 		if reqErr != nil {
 			log.Println("Failed to parse body of request as JSON")
+			return
 		}
 		// parse query
 		json, jsonErr := utils.IOToJson(resp.Body)
 		if jsonErr != nil {
-			log.Printf("Failed to receive query from wikipedia: %s\n", reqErr)
+			log.Printf("Failed to receive query from wikipedia: %s\n", json)
+			return
 		}
-		query := json["query"].(map[string]interface{})
+		query, queryOk := json["query"].(map[string]interface{})
+		if !queryOk {
+			log.Printf("Failed to access query for Wikipedia. json: %s", json)
+			return
+		}
+
 		search := query["search"].([]interface{})
 		if len(search) != 0 {
 			top := search[0].(map[string]interface{})
-			pageid := top["pageid"].(string)
+			pageid := int64(top["pageid"].(float64))
 			url, urlErr := url.Parse(fmt.Sprintf("en.wikipedia.org/?curid=%d", pageid))
 			if urlErr != nil {
 				log.Println("Failed to create URL for id of label")
+				return
 			}
 			select {
 			case <-timeout:

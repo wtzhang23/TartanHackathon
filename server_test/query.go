@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-const test = "https://tartanhackathon.uc.r.appspot.com/recommend"
+const test = "http://localhost:8080/recommend"
 const beescript = `
 My point is that writing a new operating system that is closely tied to any
 particular piece of hardware, especially a weird one like the Intel line,
@@ -42,7 +42,8 @@ func main() {
 		log.Fatalln("Failed to create json query")
 	}
 
-	log.Printf("%s\n", u.String())
+	log.Println(u.String())
+	log.Println(string(asBytes))
 	resp, err := http.Post(u.String(), "application/json", bytes.NewReader(asBytes))
 	if err != nil {
 		log.Fatalln(err.Error())
@@ -50,6 +51,11 @@ func main() {
 		log.Println(resp.Status)
 		var result map[string]interface{}
 		json.NewDecoder(resp.Body).Decode(&result)
-		log.Println(result)
+		as_bytes, err := json.Marshal(result)
+		if err != nil {
+			log.Fatalln(err.Error())
+		} else {
+			log.Println(string(as_bytes))
+		}
 	}
 }
