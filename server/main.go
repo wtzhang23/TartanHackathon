@@ -131,6 +131,8 @@ func main() {
 				}
 
 				// encode recommendations
+				w.Header().Add("Content-Type", "application/json")
+				w.Header().Add("Access-Control-Allow-Origin", "*")
 				json.NewEncoder(w).Encode(map[string][]string{"urls": asList})
 			}
 		default:

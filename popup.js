@@ -1,6 +1,6 @@
 const req = new XMLHttpRequest();
 const params = { "num": 10 };
-const url = "https://cors-anywhere.herokuapp.com/https://tartanhackathon.uc.r.appspot.com/recommend";
+const url = "https://cors-anywhere.herokuapp.com/https://tartanhackathon.uc.r.appspot.com/recommend?num=10";
 function getText() {
     return document.body.innerText
 }
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         req.onreadystatechange = function() {
             if (req.readyState == XMLHttpRequest.DONE) {
+                console.log(req.response)
                 //let articles = JSON.parse() <-- get result from POST request and save as JSON
                 jswin = window.open("", "jswin", "width=550,height=450");
                 /*for (article of articles) {
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             runAt: 'document_start',
         }, function (results) {
             var result = results[0];
-            query = {
+            var query = {
                 "texts": [
                     {
                         "body": result
@@ -35,7 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 ]
             }
             req.open('POST', url, true);
-            req.send(`json=${query}&params=${params}`);
+            req.setRequestHeader('Content-Type', "application/json")
+            var data = JSON.stringify(query)
+            req.send(data);
         });
         totalCount = parseInt(localStorage.getItem('counter'))
         if (totalCount <= 5) {
