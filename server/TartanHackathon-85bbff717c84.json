@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "tartanhackathon",
+  "private_key_id": "85bbff717c84c14128cbd4ca53da6e6284deb5eb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDOsppYEmk1KRXj\n28MkJFiXcZIFmvy7pGIfJwroPhjZAmWKDZ3UVOVUpwilYvWG0xZ9atVOFR5KM2+1\nwtyu+BgGXSmFt4cDFsJ6lG5jp7HzPHkDlpJ2bz1oubotGiyEAs4fQdUQHKOja6RN\nOYnVKTkNvKbpxu/JwD3Qcycp12YDQlHpXph6qOdwB5dyOtIJQV5aaLsSCMmRZq4E\nmYUdb9RxiF3FOvPiEBaQDSKvyKeG4VKYM0/1lgBQx8s2FNi4G2vLWpPFq8LDU4dZ\n/guyiJhVlKMDXO6kox+fllZ3BKcL5yVc7k5B7caMwL04je5B9mZ3ddMi2lhIpxDV\nIlDsUpaBAgMBAAECggEALRP5ArejL7eR4VNye72cf4zCdIwATdj0GEiuwYcXaq5x\n4BmHoADS0fMquMz78Ic1Oq1zrxd+d16/4GNKtzL+pFapgVLM9FDAobSg3YV7UumP\nl8d9EizA9we4UXFJn5GwC9OS6LRiQLfvSXNAutcGbRdFTKs47OZK5NzUP/UMt61Y\nxbGeP5AVE1Ykffyu5kbtXEVBqDXJmGh3P5FSHCMb2AXASzjhAC/fymDuyOvTQhUx\nBvsBRUdFy+x2UPkitLgYkDGGnQf7yj8kMDCS+UHiWgHsE7Rf/4sTmuZyjdjvpWAW\n1RuQuBV9zVm8Vog/zbz9rQ16mmq/50HUTKDJDra5BQKBgQD0MQBWL5LHzp3WL/Kb\nekUcsutcZSJTMZE1l1hNsPWN0o1Vh2+GxmAxwengKEdMhm1AwX/Byik1i5Qkco69\n+gmyoosWi3bELleztwzHcwVLeLo0xh9sLb7DCA67RGQcedtm2OkDII39Q2pPHwxk\nZTU7nKrCl5RCezQMIoPVs5CwdQKBgQDYsXFpWZDwItFFazAlohhhB/YzLuRA/JCF\n5BJhS93N3ItJorUlKq5U2BVZUuurJaEC5vNi5CIbCAF9yL3IWogKGpLxorVCdhH6\nwe22eH/2W66PZkVrEuo74KfXu3Wxgh+DsR5OGLJoeZODRTQH5QGfT/cjAyfqwL3a\nzwicVukMXQKBgQCIY/o5KVdFjM0x/hP27YM+tVyqfb5/Uzc1BLSIqGdu8ISKmhwb\n3h+KizHTRwwT3R2Wxr1SA1WjF7QF64p45/iUsx8W14zdpLjNo1da646wid0Pbv3M\nEXz0OELqLBfyo8l9F3iGi59jL01opgHo7XKfOjFSgRGJVIFMqdaS/Tm6pQKBgAMN\nRLaiH0tyghYDM3NkPAmpzgrcfzR3GiX4l1Wtdts+XuvTkc+LMVdaj7ppU45egk0D\nKaxb4CsXSsYVvK6Er+PMigNDMmBUP16TuqBWRB8ZHXVBkHq4knnzaQm9xyOP3JfD\nN9ULvf+ArtYrdFckH4i53JYupjJFMqdRQSLKio+1AoGABrMwJGgSvXsQ1I+Wo/Zy\n75KmtV62AtXufO7hQ3aow2RIZLAzop4z1chtWxcST6FCft4B6FG4lbvZmZ+S0Aty\nFsqvRH+myyiZEfICsJN8NE6MHnUop7BZktVlgerGgQ4OwAetiihUW5yB1PTt6g5q\nTrmbvgWcMXRXIDEOZNETIH8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "tartanhackathon@tartanhackathon.iam.gserviceaccount.com",
+  "client_id": "109743606578565498192",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tartanhackathon%40tartanhackathon.iam.gserviceaccount.com"
+}
