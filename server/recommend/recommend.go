@@ -11,7 +11,7 @@ import (
 )
 
 const SentimentFetchTimeout = 5
-const NEntities = 1
+const NEntities = 10
 const RecommendationTimeout = 5
 const Dip = 0.1
 

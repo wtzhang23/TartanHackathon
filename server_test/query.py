@@ -2,6 +2,7 @@ import json
 import requests
 
 url = "https://tartanhackathon.uc.r.appspot.com/recommend"
+#url = "http://localhost:8080/recommend"
 sample_text = '''
 My point is that writing a new operating system that is closely tied to any
 particular piece of hardware, especially a weird one like the Intel line,
@@ -27,3 +28,4 @@ params = {"num": 10}
 
 res = requests.post(url, json=query, params=params)
 print(res.json())
+print(res.headers)
