@@ -1,6 +1,6 @@
 const req = new XMLHttpRequest();
 const params = { "num": 10 };
-const url = "https://cors-anywhere.herokuapp.com/https://tartanhackathon.uc.r.appspot.com/recommend?num=10";
+const url = "https://tartanhackathon.uc.r.appspot.com/recommend?num=10";
 function getText() {
     return document.body.innerText
 }
@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         "body": result
                     }
                 ]
-            }
-            req.open('POST', url, true);
+            };
+            req.open('POST', url, false);
             req.setRequestHeader('Content-Type', "application/json")
-            var data = JSON.stringify(query)
+            var data = JSON.stringify(query);
             req.send(data);
         });
         totalCount = parseInt(localStorage.getItem('counter'))

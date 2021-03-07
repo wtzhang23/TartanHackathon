@@ -17,6 +17,12 @@ import (
 	"tartanhackathon/wiki"
 )
 
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func main() {
 	ctx := context.Background()
 	firestoreClient := utils.CreateFirestoreClient(ctx)
@@ -32,6 +38,8 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
+		setupResponse(&w, r)
+
 		switch r.Method {
 		// handle updating content and getting unique id
 		case "POST":
@@ -141,8 +149,9 @@ func main() {
 				}
 			}
 			w.Header().Set("Content-Type", "application/json")
-			w.Header().Set("Access-Control-Allow-Origin", "*")
 			json.NewEncoder(w).Encode(map[string][]string{"urls": asList})
+		case "OPTIONS":
+			return
 		default:
 			http.Error(w, "Unsupported request method.", 405)
 		}
