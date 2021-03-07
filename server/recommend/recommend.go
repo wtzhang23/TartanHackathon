@@ -15,7 +15,7 @@ const NEntities = 10
 const RecommendationTimeout = 5
 const Dip = 0.1
 
-type API = func(string, float32, float32, chan<- *url.URL)
+type API = func(string, float32, float32, chan<- []*url.URL)
 
 type TextQuery struct {
 	Text string
@@ -79,7 +79,7 @@ func CreateLanguageHandler(ctx context.Context) chan<- TextQuery {
 
 func Recommend(label string, mean float32, apis []API) []*url.URL {
 	log.Printf("recommending for label %s\n", label)
-	urls := make(chan *url.URL)
+	urls := make(chan []*url.URL)
 	defer close(urls)
 
 	for _, api := range apis {
@@ -88,19 +88,16 @@ func Recommend(label string, mean float32, apis []API) []*url.URL {
 		}(api)
 	}
 
-	asSlice := make([]*url.URL, 0)
 	recommendTimeout := time.After(RecommendationTimeout * time.Second)
 RecommendLoop:
-	for {
-		select {
-		case url, ok := <-urls:
-			if !ok {
-				break RecommendLoop
-			}
-			asSlice = append(asSlice, url)
-		case <-recommendTimeout:
+	select {
+	case us, ok := <-urls:
+		if !ok {
 			break RecommendLoop
 		}
+		return us
+	case <-recommendTimeout:
+		break RecommendLoop
 	}
-	return asSlice
+	return nil
 }

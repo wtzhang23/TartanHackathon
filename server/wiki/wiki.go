@@ -13,8 +13,8 @@ const apiURL = "https://en.wikipedia.org/w/api.php"
 const queryTimeout = 5
 const numNeededRes = 1000
 
-func WikiRecommender() func(string, float32, float32, chan<- *url.URL) {
-	return func(label string, mean float32, dip float32, urlChn chan<- *url.URL) {
+func WikiRecommender() func(string, float32, float32, chan<- []*url.URL) {
+	return func(label string, mean float32, dip float32, urlChn chan<- []*url.URL) {
 		timeout := time.After(queryTimeout * time.Second)
 		u, err := url.Parse(apiURL)
 		if err != nil {
@@ -49,7 +49,7 @@ func WikiRecommender() func(string, float32, float32, chan<- *url.URL) {
 		if len(search) != 0 {
 			top := search[0].(map[string]interface{})
 			pageid := int64(top["pageid"].(float64))
-			url, urlErr := url.Parse(fmt.Sprintf("en.wikipedia.org/?curid=%d", pageid))
+			u, urlErr := url.Parse(fmt.Sprintf("https://en.wikipedia.org/?curid=%d", pageid))
 			if urlErr != nil {
 				log.Println("Failed to create URL for id of label")
 				return
@@ -58,7 +58,7 @@ func WikiRecommender() func(string, float32, float32, chan<- *url.URL) {
 			case <-timeout:
 				log.Println("Timed out on sending wikipedia link")
 				return
-			case urlChn <- url:
+			case urlChn <- []*url.URL{u}:
 			}
 		}
 	}

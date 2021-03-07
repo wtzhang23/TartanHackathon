@@ -35,3 +35,9 @@ var data = JSON.stringify(query);
 console.log(data)
 req.send(data)
 console.log(req)
+var articles = JSON.parse(req.responseText)
+//jswin = window.open("", "jswin", "width=550,height=450");
+for (article of articles["urls"]) {
+    //jswin.document.write(article + "\n");
+    console.log(article)
+}

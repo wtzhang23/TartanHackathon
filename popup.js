@@ -10,15 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
     checkPageButton.addEventListener('click', function (e) {
         e.preventDefault();
 
-        req.onreadystatechange = function() {
-            if (req.readyState == XMLHttpRequest.DONE) {
-                console.log(req.response)
-                //let articles = JSON.parse() <-- get result from POST request and save as JSON
-                jswin = window.open("", "jswin", "width=550,height=450");
-                /*for (article of articles) {
-                    jswin.document.write(article);
-                }*/
-                
+        req.onload = function() {
+            var articles = JSON.parse(req.responseText)
+            //jswin = window.open("", "jswin", "width=550,height=450");
+            for (article of articles["urls"]) {
+                //jswin.document.write(article + "\n");
+                chrome.tabs.create({'url': article, 'active': false}, function(tab){})
             }
         }
         localStorage.setItem('counter', parseInt(localStorage.getItem('counter')) + 1);
@@ -35,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 ]
             };
-            req.open('POST', url, false);
+            req.open('POST', url, true);
             req.setRequestHeader('Content-Type', "application/json")
             var data = JSON.stringify(query);
             req.send(data);

@@ -20,8 +20,8 @@ type urlContentPair struct {
 	content string
 }
 
-func NewsRecommender(textQueryChn chan<- recommend.TextQuery) func(string, float32, float32, chan<- *url.URL) {
-	return func(label string, mean float32, dip float32, urlChn chan<- *url.URL) {
+func NewsRecommender(textQueryChn chan<- recommend.TextQuery) func(string, float32, float32, chan<- []*url.URL) {
+	return func(label string, mean float32, dip float32, urlChn chan<- []*url.URL) {
 		timeout := time.After(queryTimeout * time.Second)
 		contentChn := make(chan urlContentPair)
 		go func() {
@@ -46,17 +46,19 @@ func NewsRecommender(textQueryChn chan<- recommend.TextQuery) func(string, float
 							log.Println("Timed out on getting results of sentiment analysis of news article")
 							return
 						case entities := <-resChn:
+							toSend := make([]*url.URL, 0)
 							for _, entity := range entities {
 								if entity.Label == label &&
 									(mean < 0 && entity.Sentiment >= mean+dip || mean > 0 && entity.Sentiment <= mean-dip) {
-									select {
-									case <-timeout:
-										log.Println("Timed out on sending URL of news articles that passed filters")
-										return
-									case urlChn <- content.u:
-										return
-									}
+									toSend = append(toSend, content.u)
 								}
+							}
+							select {
+							case <-timeout:
+								log.Println("Timed out on sending URL of news articles that passed filters")
+								return
+							case urlChn <- toSend:
+								return
 							}
 						}
 					}

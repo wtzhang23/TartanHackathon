@@ -3,7 +3,8 @@
     "version": "0.1",
     "description": "Broaden your virtual world!",
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs"
     ],
     "manifest_version": 2,
     "background": {
