@@ -1,7 +1,10 @@
 {
-    "name": "TODO: Insert Name Here",
+    "name": "AAAAAAA: Explore your Horizons",
     "version": "0.1",
     "description": "Broaden your virtual world!",
+    "permissions": [
+        "activeTab"
+    ],
     "manifest_version": 2,
     "background": {
         "scripts": ["src/background.js"],
@@ -12,6 +15,6 @@
     },
     "browser_action":{
         "default_icon":"rand.png",
-        "default_popup":"testing.html"
+        "default_popup":"test.html"
     }
 }
