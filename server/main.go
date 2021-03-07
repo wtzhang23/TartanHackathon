@@ -199,7 +199,7 @@ func IOToJson(body io.ReadCloser) (map[string]interface{}, error) {
 
 func createLanguageHandler(ctx context.Context) chan<- TextQuery {
 	queryChn := make(chan TextQuery)
-	client, err := language.NewClient(ctx)
+	client, err := language.NewClient(ctx, "tartanhackathon")
 	if err != nil {
 		log.Fatal(err)
 	} else {
