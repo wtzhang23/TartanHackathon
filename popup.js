@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     checkPageButton.addEventListener('click', function (e) {
         e.preventDefault();
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
+        req.onreadystatechange = function() {
+            if (req.readyState == XMLHttpRequest.DONE) {
                 //let articles = JSON.parse() <-- get result from POST request and save as JSON
                 jswin = window.open("", "jswin", "width=550,height=450");
                 /*for (article of articles) {
@@ -34,9 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 ]
             }
-            //req.open("POST", url, true);
-            //req.send(`json=${query}&params=${params}`);
-
+            req.open('POST', url, true);
+            req.send(`json=${query}&params=${params}`);
         });
         totalCount = parseInt(localStorage.getItem('counter'))
         if (totalCount <= 5) {
