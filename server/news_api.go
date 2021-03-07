@@ -5,11 +5,12 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+	"log"
 )
 
 const apiKey = "009de51effee49ada26b0ed9282b28bf"
 const apiURL = "https://newsapi.org/v2/everything"
-const queryTimeout = 1
+const queryTimeout = 5
 const numNeededRes = 1000
 
 type urlContentPair struct {
@@ -27,6 +28,7 @@ func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float3
 		for {
 			select {
 			case <-timeout:
+				log.Println("Timed out on getting list of news URL")
 				return
 			case content := <-contentChn:
 				go func() {
@@ -34,10 +36,12 @@ func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float3
 					query := TextQuery{content.content, resChn}
 					select {
 					case <-timeout:
+						log.Println("Timed out on enqueuing task for sentiment analysis of a news article")
 						return
 					case textQueryChn <- query:
 						select {
 						case <-timeout:
+							log.Println("Timed out on getting results of sentiment analysis of news article")
 							return
 						case entities := <-resChn:
 							for _, entity := range entities {
@@ -45,6 +49,7 @@ func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float3
 									(mean < 0 && entity.Sentiment >= mean+dip || mean > 0 && entity.Sentiment <= mean-dip) {
 									select {
 									case <-timeout:
+										log.Println("Timed out on sending URL of news articles that passed filters")
 										return
 									case urlChn <- content.u:
 										return
@@ -72,9 +77,10 @@ func query(label string, nRes int, timeout <-chan time.Time, contentChn chan<- u
 			vals.Set("page", strconv.Itoa(page))
 			u.RawQuery = vals.Encode()
 			resp, reqErr := http.Get(u.String())
-			if reqErr != nil {
+			if reqErr == nil {
 				json, jsonErr := IOToJson(resp.Body)
-				if jsonErr != nil {
+				if jsonErr == nil {
+					log.Printf("%s\n", json)
 					status := json["status"].(string)
 					if status != "ok" {
 						return
@@ -94,6 +100,8 @@ func query(label string, nRes int, timeout <-chan time.Time, contentChn chan<- u
 						}
 					}
 				}
+			} else {
+				log.Printf("Failed to get request from news API. Response: %s", reqErr)
 			}
 			page++
 		}

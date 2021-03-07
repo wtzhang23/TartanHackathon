@@ -19,8 +19,7 @@ import (
 	languagepb "google.golang.org/genproto/googleapis/cloud/language/v1"
 )
 
-const MaxRecordsPerLabel = 1000
-const SalienceThreshold = .8
+const NEntities = 1
 const SentimentFetchTimeout = 5
 const RecommendationTimeout = 5
 const dip = 0.1
@@ -139,9 +138,16 @@ func main() {
 				means = append(means, <-meanChn)
 			}
 			rand.Shuffle(nLabels, func(i, j int) { means[i], means[j] = means[j], means[i] })
+			
 
 			// recommend enough
 			recommendations := make(chan []*url.URL)
+
+			if int64(nLabels) < nRecommendations {
+				nRecommendations = int64(nLabels) 
+			}
+			log.Printf("Number of labels to perform recommendations on: %d\n", nRecommendations)
+
 			defer close(recommendations)
 			for i := int64(0); i < nRecommendations && i < int64(nLabels); i++ {
 				go func(label string, mean float32) {
@@ -199,7 +205,7 @@ func IOToJson(body io.ReadCloser) (map[string]interface{}, error) {
 
 func createLanguageHandler(ctx context.Context) chan<- TextQuery {
 	queryChn := make(chan TextQuery)
-	client, err := language.NewClient(ctx, "tartanhackathon")
+	client, err := language.NewClient(ctx)
 	if err != nil {
 		log.Fatal(err)
 	} else {
@@ -222,16 +228,15 @@ func createLanguageHandler(ctx context.Context) chan<- TextQuery {
 					res := make([]EntityResult, 0)
 					if err == nil {
 						// string together entities and their sentiments
-						for _, entity := range sentimentResult.GetEntities() {
-							salience := entity.GetSalience()
+						for i, entity := range sentimentResult.GetEntities() {
+							if i >= NEntities {
+								break
+							}
 							sentiment := entity.GetSentiment().Score
 							name := entity.GetName()
-							log.Println(name)
-							if salience >= SalienceThreshold {
-								res = append(res, EntityResult{sentiment, name})
-							}
+							log.Printf("%s: %f", name, sentiment)
+							res = append(res, EntityResult{sentiment, name})
 						}
-						log.Println("Finished sentiment analysis")
 					} else {
 						log.Printf("Failed to perform sentiment analysis: %s", err.Error())
 					}
@@ -249,6 +254,7 @@ func createLanguageHandler(ctx context.Context) chan<- TextQuery {
 }
 
 func recommend(label string, mean float32, apis []API) []*url.URL {
+	log.Printf("recommending for label %s\n", label)
 	urls := make(chan *url.URL)
 	defer close(urls)
 

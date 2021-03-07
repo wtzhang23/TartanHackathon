@@ -8,15 +8,17 @@ import (
 	"net/url"
 )
 
-const test = "http://localhost:8080/recommend"
+const test = "https://tartanhackathon.uc.r.appspot.com/recommend"
 const beescript = `
-According to all known laws of aviation, 
-there is no way a bee should be able to fly.  
-Its wings are too small to get
-its fat little body off the ground.  
-The bee, of course, flies anyway  
-because bees don't care
-what humans think is impossible.
+My point is that writing a new operating system that is closely tied to any
+particular piece of hardware, especially a weird one like the Intel line,
+is basically wrong.  An OS itself should be easily portable to new hardware
+platforms.  When OS/360 was written in assembler for the IBM 360
+25 years ago, they probably could be excused.  When MS-DOS was written
+specifically for the 8088 ten years ago, this was less than brilliant, as
+IBM and Microsoft now only too painfully realize. Writing a new OS only for the
+386 in 1991 gets you your second 'F' for this term.  But if you do real well
+on the final exam, you can still pass the course.
 `
 
 func main() {
