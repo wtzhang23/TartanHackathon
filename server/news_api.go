@@ -17,9 +17,9 @@ type urlContentPair struct {
 	content string
 }
 
-func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float32, chan<- url.URL) {
-	return func(label string, mean float32, dip float32, urlChn chan<- url.URL) {
-		timeout := time.After(queryTimeout)
+func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float32, chan<- *url.URL) {
+	return func(label string, mean float32, dip float32, urlChn chan<- *url.URL) {
+		timeout := time.After(queryTimeout * time.Second)
 		contentChn := make(chan urlContentPair)
 		go func() {
 			query(label, numNeededRes, timeout, contentChn)
@@ -46,7 +46,7 @@ func NewsRecommender(textQueryChn chan<- TextQuery) func(string, float32, float3
 									select {
 									case <-timeout:
 										return
-									case urlChn <- *content.u:
+									case urlChn <- content.u:
 										return
 									}
 								}
@@ -70,6 +70,7 @@ func query(label string, nRes int, timeout <-chan time.Time, contentChn chan<- u
 			vals.Set("q", label)
 			vals.Set("sortBy", "relevancy")
 			vals.Set("page", strconv.Itoa(page))
+			u.RawQuery = vals.Encode()
 			resp, reqErr := http.Get(u.String())
 			if reqErr != nil {
 				json, jsonErr := IOToJson(resp.Body)
