@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-const test = "http://localhost:8080/recommend"
+const test = "https://tartanhackathon.uc.r.appspot.com/recommend"
 const beescript = `
 My point is that writing a new operating system that is closely tied to any
 particular piece of hardware, especially a weird one like the Intel line,
